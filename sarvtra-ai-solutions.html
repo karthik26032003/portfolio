@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarvtra AI Solutions — Enterprise AI Infrastructure</title>
+  <meta name="description" content="Sarvtra AI Solutions builds enterprise-grade AI systems — voice bots, WhatsApp agents, computer vision, ML predictions, and workflow automation — for businesses across India." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --bg:           #030711;
+      --bg-2:         #060d1f;
+      --bg-card:      rgba(8, 16, 40, 0.65);
+      --bg-card-h:    rgba(10, 22, 55, 0.9);
+      --border:       rgba(59, 130, 246, 0.12);
+      --border-h:     rgba(59, 130, 246, 0.32);
+      --blue:         #3B82F6;
+      --blue-lt:      #60A5FA;
+      --indigo:       #6366F1;
+      --green:        #10B981;
+      --amber:        #F59E0B;
+      --text:         #EFF2F9;
+      --text-2:       #94A3B8;
+      --text-3:       #64748B;
+      --radius-sm:    10px;
+      --radius-md:    16px;
+      --radius-lg:    20px;
+      --shadow-card:  0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.025) inset;
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+
+    /* ============================================================
+       BACKGROUND LAYER
+    ============================================================ */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.028) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+    .orb {
+      position: fixed; border-radius: 50%; filter: blur(130px);
+      pointer-events: none; z-index: 0;
+      animation: orb-drift 22s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 640px; height: 640px; opacity: 0.35;
+      background: radial-gradient(circle, rgba(59,130,246,0.35), transparent 68%);
+      top: -220px; left: -180px;
+    }
+    .orb-2 {
+      width: 520px; height: 520px; opacity: 0.25;
+      background: radial-gradient(circle, rgba(99,102,241,0.3), transparent 68%);
+      bottom: 10%; right: -160px;
+      animation-delay: -11s; animation-duration: 28s;
+    }
+    @keyframes orb-drift {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(28px,-28px) scale(1.05); }
+      66%      { transform: translate(-18px,18px) scale(0.96); }
+    }
+
+    /* All real content sits above the background */
+    nav, section, footer { position: relative; z-index: 1; }
+
+    /* ============================================================
+       TYPOGRAPHY HELPERS
+    ============================================================ */
+    h1,h2,h3,h4 { font-weight: 800; letter-spacing: -0.035em; line-height: 1.12; }
+
+    .gradient-text {
+      background: linear-gradient(130deg, #fff 0%, #93C5FD 45%, #818CF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue-lt);
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.22);
+      padding: 5px 14px; border-radius: 100px;
+      margin-bottom: 1.25rem;
+    }
+    .section-pill::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--blue); border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.35; transform: scale(0.65); }
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .container   { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+    .section     { padding: 110px 0; }
+    .section-sm  { padding: 80px 0; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-header h2  { font-size: clamp(1.85rem, 4vw, 2.9rem); margin-bottom: 1rem; }
+    .section-header p   { font-size: 1.05rem; color: var(--text-2); max-width: 580px; margin: 0 auto; line-height: 1.75; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 25%, var(--border) 75%, transparent);
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--blue); color: #fff;
+      padding: 0.85rem 1.8rem; border-radius: var(--radius-sm);
+      font-size: 0.95rem; font-weight: 600;
+      transition: background 0.22s, box-shadow 0.22s, transform 0.22s;
+      border: 1px solid transparent;
+    }
+    .btn-primary:hover {
+      background: #2563EB;
+      box-shadow: 0 0 28px rgba(59,130,246,0.45), 0 4px 16px rgba(0,0,0,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: transparent; color: var(--text-2);
+      padding: 0.85rem 1.8rem; border-radius: var(--radius-sm);
+      font-size: 0.95rem; font-weight: 500;
+      border: 1px solid var(--border);
+      transition: color 0.22s, border-color 0.22s, background 0.22s;
+    }
+    .btn-outline:hover {
+      color: #fff; border-color: rgba(59,130,246,0.45);
+      background: rgba(59,130,246,0.06);
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 70px;
+      background: rgba(3,7,17,0.82);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      height: 100%; max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: baseline; gap: 0.4rem; }
+    .nav-logo-main {
+      font-size: 1.3rem; font-weight: 800;
+      letter-spacing: -0.04em; color: #fff;
+    }
+    .nav-logo-sub {
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--blue-lt);
+    }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--text-2); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff !important;
+      padding: 0.55rem 1.35rem; border-radius: 8px;
+      font-size: 0.875rem !important; font-weight: 600 !important;
+      transition: background 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover { background: #2563EB !important; box-shadow: 0 0 20px rgba(59,130,246,0.4); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 130px 0 90px; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--green);
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.22);
+      padding: 5px 13px; border-radius: 100px;
+      margin-bottom: 1.6rem;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; background: var(--green);
+      border-radius: 50%; animation: pulse-dot 2s infinite;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.9rem); font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1.08; margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      font-size: 1.08rem; color: var(--text-2);
+      line-height: 1.78; margin-bottom: 2.5rem; max-width: 510px;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem; padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      display: block; font-size: 2.1rem; font-weight: 800;
+      letter-spacing: -0.04em; color: #fff;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-3); font-weight: 500; }
+
+    /* Hero — Right Side Dashboard */
+    .dashboard {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-card);
+    }
+    .db-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .db-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-3); }
+    .db-live {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; font-weight: 700; color: var(--green);
+      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .db-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .db-metric {
+      background: rgba(59,130,246,0.04);
+      border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem;
+    }
+    .db-metric-val { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.04em; color: #fff; }
+    .db-metric-key { font-size: 0.68rem; color: var(--text-3); font-weight: 500; margin-top: 2px; }
+    .db-metric-delta { font-size: 0.68rem; font-weight: 700; color: var(--green); }
+    .db-log {
+      background: rgba(0,0,0,0.32); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--text-3); line-height: 1.9;
+    }
+    .log-row { display: flex; gap: 0.75rem; }
+    .log-t  { color: var(--blue-lt); min-width: 76px; }
+    .log-e  { color: var(--text-2); flex: 1; }
+    .log-ok { color: var(--green); }
+    .log-warn { color: var(--amber); }
+
+    /* ============================================================
+       CLIENTS STRIP
+    ============================================================ */
+    .clients-section { padding: 56px 0; }
+    .clients-label {
+      text-align: center; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 2.25rem;
+    }
+    .clients-row {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 3rem;
+    }
+    .client-name {
+      font-size: 0.95rem; font-weight: 700; letter-spacing: -0.02em;
+      color: var(--text-3); transition: color 0.2s; white-space: nowrap;
+    }
+    .client-name:hover { color: var(--text-2); }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+    .svc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 2rem; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .svc-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(59,130,246,0.04), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .svc-card:hover { border-color: var(--border-h); transform: translateY(-4px); box-shadow: 0 20px 56px rgba(0,0,0,0.45); }
+    .svc-card:hover::after { opacity: 1; }
+    .svc-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; font-weight: 500;
+      color: var(--text-3); letter-spacing: 0.1em; margin-bottom: 0.5rem;
+    }
+    .svc-card h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.65rem; }
+    .svc-problem {
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--blue-lt); line-height: 1.55; margin-bottom: 0.75rem;
+    }
+    .svc-desc { font-size: 0.875rem; color: var(--text-2); line-height: 1.72; margin-bottom: 1.25rem; }
+    .svc-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag {
+      font-size: 0.68rem; font-weight: 500; color: var(--text-3);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+      padding: 3px 10px; border-radius: 100px;
+    }
+
+    /* ============================================================
+       CASE STUDIES
+    ============================================================ */
+    .case-wrap > .case + .case { border-top: 1px solid var(--border); }
+    .case {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4.5rem; align-items: center; padding: 4rem 0;
+    }
+    .case:nth-child(even) .case-copy   { order: 2; }
+    .case:nth-child(even) .case-visual { order: 1; }
+    .case-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--blue-lt); margin-bottom: 0.65rem;
+    }
+    .case-copy h3 { font-size: 1.65rem; margin-bottom: 0.4rem; }
+    .case-client { font-size: 0.82rem; color: var(--text-3); font-weight: 500; margin-bottom: 1.5rem; }
+    .case-block { margin-bottom: 1.15rem; }
+    .case-block-lbl {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 0.35rem;
+    }
+    .case-block-txt { font-size: 0.875rem; color: var(--text-2); line-height: 1.72; }
+    .case-kpis { display: flex; gap: 1.75rem; margin-top: 1.6rem; flex-wrap: wrap; }
+    .kpi-val {
+      font-size: 1.8rem; font-weight: 800; letter-spacing: -0.04em;
+      background: linear-gradient(130deg, var(--blue), var(--indigo));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .kpi-lbl { font-size: 0.72rem; color: var(--text-3); font-weight: 500; }
+    .case-visual {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.75rem;
+      height: 290px; display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: var(--shadow-card);
+    }
+    .cv-head {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.7rem; font-weight: 700; color: var(--text-3); letter-spacing: 0.08em;
+    }
+    .cv-badge {
+      font-size: 0.65rem; font-weight: 700; color: var(--green);
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);
+      padding: 2px 9px; border-radius: 100px;
+    }
+    .cv-rows { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; flex: 1; justify-content: center; }
+    .cv-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.7rem 0.85rem;
+      background: rgba(59,130,246,0.04); border: 1px solid var(--border); border-radius: 8px;
+    }
+    .cv-row-lbl { font-size: 0.78rem; color: var(--text-2); }
+    .cv-row-val { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .cv-row-val.green { color: var(--green); }
+    .cv-log {
+      margin-top: 1rem; flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem; line-height: 1.9; overflow: hidden;
+    }
+
+    /* ============================================================
+       INTEGRATIONS & TECH STACK
+    ============================================================ */
+    .integrations-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; }
+    .tech-grid          { display: grid; grid-template-columns: repeat(6,1fr); gap: 0.8rem; }
+
+    .brand-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.4rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+      transition: border-color 0.25s, transform 0.25s;
+      text-align: center;
+    }
+    .brand-card:hover { border-color: var(--border-h); transform: translateY(-3px); }
+    .brand-card img {
+      width: 34px; height: 34px; object-fit: contain;
+      filter: brightness(0.55) saturate(0);
+      transition: filter 0.25s;
+    }
+    .brand-card:hover img { filter: brightness(0.85) saturate(0.6); }
+    .brand-name { font-size: 0.72rem; font-weight: 600; color: var(--text-3); }
+
+    .tech-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 1rem 0.75rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
+      transition: border-color 0.25s, transform 0.25s; text-align: center;
+    }
+    .tech-card:hover { border-color: var(--border-h); transform: translateY(-2px); }
+    .tech-card img {
+      width: 28px; height: 28px; object-fit: contain;
+      filter: brightness(0.55) saturate(0); transition: filter 0.25s;
+    }
+    .tech-card:hover img { filter: brightness(1) saturate(1); }
+    .tech-name { font-size: 0.65rem; font-weight: 600; color: var(--text-3); }
+
+    /* ============================================================
+       PROCESS
+    ============================================================ */
+    .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; position: relative; }
+    .process-grid::before {
+      content: ''; position: absolute; top: 31px;
+      left: calc(12.5% + 10px); right: calc(12.5% + 10px); height: 1px;
+      background: linear-gradient(90deg, var(--border), rgba(59,130,246,0.35), var(--border));
+    }
+    .process-step { text-align: center; }
+    .process-num {
+      width: 62px; height: 62px; border-radius: 50%; margin: 0 auto 1.4rem;
+      display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--blue);
+      background: var(--bg-card); border: 1px solid var(--border);
+    }
+    .process-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.55rem; }
+    .process-step p  { font-size: 0.84rem; color: var(--text-2); line-height: 1.68; }
+
+    /* ============================================================
+       INDUSTRIES
+    ============================================================ */
+    .industries-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    .ind-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 1.4rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .ind-card:hover { border-color: var(--border-h); transform: translateY(-2px); }
+    .ind-name  { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.45rem; }
+    .ind-desc  { font-size: 0.78rem; color: var(--text-3); line-height: 1.6; }
+
+    /* ============================================================
+       TEAM
+    ============================================================ */
+    .team-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2rem; max-width: 780px; margin: 0 auto; }
+    .team-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 2.5rem; text-align: center;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .team-card:hover { border-color: var(--border-h); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      margin: 0 auto 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em;
+    }
+    .team-name { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.2rem; }
+    .team-role {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue-lt); margin-bottom: 0.85rem;
+    }
+    .team-bio { font-size: 0.85rem; color: var(--text-2); line-height: 1.68; margin-bottom: 1.25rem; }
+    .team-contacts { display: flex; flex-direction: column; gap: 0.35rem; }
+    .team-contacts a { font-size: 0.8rem; color: var(--text-3); transition: color 0.2s; }
+    .team-contacts a:hover { color: var(--blue-lt); }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-info h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .contact-info p  { font-size: 1rem; color: var(--text-2); line-height: 1.78; margin-bottom: 2.5rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+    .ci-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
+    .ci-val   { font-size: 0.95rem; color: var(--text-2); font-weight: 500; margin-top: 2px; }
+    .ci-val a { color: var(--text-2); transition: color 0.2s; }
+    .ci-val a:hover { color: var(--blue-lt); }
+
+    .contact-form {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .contact-form h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.75rem; }
+    .form-group   { margin-bottom: 1.2rem; }
+    .form-row     { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-2); margin-bottom: 0.45rem; letter-spacing: 0.02em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.82rem 1rem;
+      color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(59,130,246,0.5);
+      background: rgba(59,130,246,0.03);
+    }
+    .form-group textarea { height: 96px; resize: none; }
+    .form-group select option { background: #0a1628; color: var(--text); }
+    .form-submit {
+      width: 100%; background: var(--blue); color: #fff;
+      border: none; padding: 1rem; border-radius: var(--radius-sm);
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background 0.22s, box-shadow 0.22s, transform 0.22s;
+      letter-spacing: 0.02em;
+    }
+    .form-submit:hover {
+      background: #2563EB;
+      box-shadow: 0 0 24px rgba(59,130,246,0.45);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer { border-top: 1px solid var(--border); padding: 4rem 0 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand-desc { font-size: 0.875rem; color: var(--text-3); line-height: 1.75; margin-top: 0.75rem; max-width: 270px; }
+    .footer-socials { display: flex; gap: 0.65rem; margin-top: 1.25rem; }
+    .social-btn {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--border-h); }
+    .social-btn img { width: 16px; height: 16px; filter: brightness(0.55) saturate(0); transition: filter 0.2s; }
+    .social-btn:hover img { filter: brightness(0.85) saturate(0.4); }
+    .footer-col h5 {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-col ul a { font-size: 0.875rem; color: var(--text-3); transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--text-2); }
+    .footer-bottom {
+      padding-top: 2rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--text-3); }
+
+    /* ============================================================
+       WHATSAPP FLOAT
+    ============================================================ */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+      width: 56px; height: 56px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .wa-float svg { fill: #fff; }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+    ============================================================ */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .integrations-grid { grid-template-columns: repeat(3,1fr); }
+      .tech-grid { grid-template-columns: repeat(4,1fr); }
+      .case { grid-template-columns: 1fr; }
+      .case:nth-child(even) .case-copy, .case:nth-child(even) .case-visual { order: unset; }
+      .case-visual { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .process-grid { grid-template-columns: repeat(2,1fr); }
+      .process-grid::before { display: none; }
+      .industries-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 1.25rem; }
+      .section { padding: 80px 0; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(2,1fr); }
+      .integrations-grid { grid-template-columns: repeat(2,1fr); }
+      .tech-grid { grid-template-columns: repeat(3,1fr); }
+      .team-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .industries-grid { grid-template-columns: repeat(2,1fr); }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== BACKGROUND ==================== -->
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- ==================== WHATSAPP FLOAT ==================== -->
+  <a href="https://wa.me/919866517854" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <!-- ==================== NAV ==================== -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-main">SARVTRA</span>
+        <span class="nav-logo-sub">AI Solutions</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#case-studies">Case Studies</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left -->
+        <div class="hero-copy">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Currently accepting new clients
+          </div>
+          <h1>We Build AI Infrastructure<br>
+            <span class="gradient-text">That Transforms Operations</span>
+          </h1>
+          <p class="hero-desc">
+            Sarvtra AI Solutions engineers enterprise-grade intelligent systems — from voice automation and AI agents to predictive ML models — purpose-built to drive measurable business outcomes.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn-primary">
+              Schedule a Discovery Call
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#case-studies" class="btn-outline">View Case Studies</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <span class="stat-num" data-count="5">0</span>
+              <span class="stat-label">Enterprise Clients</span>
+            </div>
+            <div>
+              <span class="stat-num" data-count="8">0</span>
+              <span class="stat-label">AI Systems Deployed</span>
+            </div>
+            <div>
+              <span class="stat-num">100%</span>
+              <span class="stat-label">Custom-Built Solutions</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right — Live Dashboard -->
+        <div class="hero-visual">
+          <div class="dashboard">
+            <div class="db-header">
+              <span class="db-title">AI OPERATIONS DASHBOARD</span>
+              <div class="db-live">
+                <span style="width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse-dot 2s infinite;"></span>
+                LIVE
+              </div>
+            </div>
+            <div class="db-metrics">
+              <div class="db-metric">
+                <div class="db-metric-val">847</div>
+                <div class="db-metric-key">Calls Handled Today</div>
+                <div class="db-metric-delta">+12.4% vs yesterday</div>
+              </div>
+              <div class="db-metric">
+                <div class="db-metric-val">99.2%</div>
+                <div class="db-metric-key">System Uptime</div>
+                <div class="db-metric-delta">SLA maintained</div>
+              </div>
+              <div class="db-metric">
+                <div class="db-metric-val">2.3s</div>
+                <div class="db-metric-key">Avg Response Time</div>
+                <div class="db-metric-delta">-0.4s from baseline</div>
+              </div>
+              <div class="db-metric">
+                <div class="db-metric-val">94%</div>
+                <div class="db-metric-key">Autonomous Resolution</div>
+                <div class="db-metric-delta">+6% this week</div>
+              </div>
+            </div>
+            <div class="db-log">
+              <div class="log-row"><span class="log-t">14:32:01</span><span class="log-e">Inbound call — Mukunda Jewellers</span><span class="log-ok">RESOLVED</span></div>
+              <div class="log-row"><span class="log-t">14:32:18</span><span class="log-e">WhatsApp agent — Hero Motors</span><span class="log-ok">RESOLVED</span></div>
+              <div class="log-row"><span class="log-t">14:33:05</span><span class="log-e">Web agent — Edutech Ignitus</span><span class="log-ok">ACTIVE</span></div>
+              <div class="log-row"><span class="log-t">14:33:22</span><span class="log-e">Demand forecast — SCM model run</span><span class="log-warn">RUNNING</span></div>
+              <div class="log-row"><span class="log-t">14:33:47</span><span class="log-e">Campaign sync — Unilytics.ai</span><span class="log-ok">RESOLVED</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== CLIENTS ==================== -->
+  <section class="clients-section">
+    <div class="container">
+      <p class="clients-label">Trusted by forward-thinking companies across India</p>
+      <div class="clients-row">
+        <span class="client-name">Unilytics.ai</span>
+        <span class="client-name">Mukunda Jewellers</span>
+        <span class="client-name">Hero Motors</span>
+        <span class="client-name">Edutech Ignitus</span>
+        <span class="client-name">Promptora AI</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== SERVICES ==================== -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Services</div>
+        <h2>Intelligent Systems Engineered<br><span class="gradient-text">For Every Business Layer</span></h2>
+        <p>We design, build, and deploy AI systems that eliminate operational bottlenecks, scale customer interactions, and surface actionable intelligence — without the cost of building in-house.</p>
+      </div>
+
+      <div class="services-grid">
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">01 — TELEPHONY AI</div>
+          <h3>Voice &amp; Call Bot Systems</h3>
+          <p class="svc-problem">Businesses handling hundreds of daily inbound calls waste up to 40% of agent time on repetitive queries and lose leads after business hours.</p>
+          <p class="svc-desc">Intelligent telephony agents with natural language understanding that handle inbound and outbound calls autonomously — qualifying leads, booking appointments, answering FAQs, and escalating only when genuinely necessary. Deployed for Mukunda Jewellers and Hero Motors.</p>
+          <div class="svc-tags">
+            <span class="tag">Inbound Handling</span>
+            <span class="tag">Outbound Dialling</span>
+            <span class="tag">IVR Replacement</span>
+            <span class="tag">Smart Escalation</span>
+            <span class="tag">Multi-language</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">02 — MESSAGING AI</div>
+          <h3>WhatsApp AI Agents</h3>
+          <p class="svc-problem">95% of customers prefer messaging, yet businesses rely on manual WhatsApp responses — causing 4–6 hour response lags and significant conversion loss.</p>
+          <p class="svc-desc">AI-powered WhatsApp Business agents that manage complete customer conversations — product queries, order tracking, appointment scheduling, complaint resolution — at any hour, in any language, at unlimited scale. Live at Hero Motors.</p>
+          <div class="svc-tags">
+            <span class="tag">WhatsApp Business API</span>
+            <span class="tag">24/7 Automation</span>
+            <span class="tag">CRM Integration</span>
+            <span class="tag">Lead Capture</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">03 — CONVERSATIONAL AI</div>
+          <h3>Website AI Agents</h3>
+          <p class="svc-problem">Visitors abandon websites within 3 minutes when they cannot find what they need. Static FAQs and contact forms fail to convert browsers into buyers.</p>
+          <p class="svc-desc">Context-aware AI agents embedded in your digital properties that understand user intent, guide navigation intelligently, answer product-specific questions in depth, and qualify leads in real time — acting as a 24/7 expert consultant. Deployed at Edutech Ignitus.</p>
+          <div class="svc-tags">
+            <span class="tag">Intent Recognition</span>
+            <span class="tag">RAG Architecture</span>
+            <span class="tag">Lead Qualification</span>
+            <span class="tag">Behaviour Analytics</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">04 — COMPUTER VISION</div>
+          <h3>Vision-Enabled AI Models</h3>
+          <p class="svc-problem">Manual inspection, visual monitoring, and image-based data extraction are too slow, error-prone, and expensive to scale across production environments.</p>
+          <p class="svc-desc">Custom vision models for defect detection, document intelligence, object classification, and real-time visual analytics — integrated directly into production lines, dashboards, and existing camera infrastructure with low-latency inference.</p>
+          <div class="svc-tags">
+            <span class="tag">Defect Detection</span>
+            <span class="tag">OCR &amp; Document AI</span>
+            <span class="tag">Real-time Analysis</span>
+            <span class="tag">Edge Deployment</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">05 — PREDICTIVE ML</div>
+          <h3>Supply Chain &amp; Demand Intelligence</h3>
+          <p class="svc-problem">Manufacturing and distribution businesses lose 15–20% in working capital due to inaccurate demand forecasting and inventory mismanagement at scale.</p>
+          <p class="svc-desc">Machine learning models trained on your historical data, seasonal cycles, market signals, and production variables to predict demand, optimise inventory levels, reduce wastage, and surface supply chain anomalies before they become costly disruptions.</p>
+          <div class="svc-tags">
+            <span class="tag">Demand Forecasting</span>
+            <span class="tag">Inventory Optimisation</span>
+            <span class="tag">Anomaly Detection</span>
+            <span class="tag">Production Planning</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">06 — INTEGRATIONS</div>
+          <h3>Platform &amp; Workflow Automation</h3>
+          <p class="svc-problem">Teams spend 30% of their time on manual data transfer between CRM, ad platforms, analytics tools, and operational software — generating errors and delays that compound daily.</p>
+          <p class="svc-desc">End-to-end integration of business systems — Google Workspace, Zoho CRM, Meta Ads, LinkedIn, Instagram, Salesforce, and more — with intelligent automation pipelines that eliminate manual handoffs and create unified operational intelligence. Built for Unilytics.ai.</p>
+          <div class="svc-tags">
+            <span class="tag">API Integration</span>
+            <span class="tag">Zoho &amp; Salesforce</span>
+            <span class="tag">Meta &amp; Google Ads</span>
+            <span class="tag">Webhook Automation</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">07 — QA AUTOMATION</div>
+          <h3>Evaluation &amp; Quality Bots</h3>
+          <p class="svc-problem">Ensuring consistency in AI outputs, sales call quality, and compliance requires dedicated review teams that cannot scale cost-effectively as the business grows.</p>
+          <p class="svc-desc">Automated evaluation frameworks that score AI-generated content against quality rubrics, audit call transcripts for compliance and tone, flag anomalies, and generate structured performance reports — giving leadership objective, real-time quality intelligence.</p>
+          <div class="svc-tags">
+            <span class="tag">LLM Evaluation</span>
+            <span class="tag">Call Auditing</span>
+            <span class="tag">Compliance Checks</span>
+            <span class="tag">Scoring Pipelines</span>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-num">08 — DEVELOPMENT</div>
+          <h3>AI-Native Web Development</h3>
+          <p class="svc-problem">Traditional websites are static and disconnected from business operations. Modern companies need digital platforms that are intelligent, integrated, and conversion-optimised from day one.</p>
+          <p class="svc-desc">Full-stack web development with embedded AI capabilities — from intelligent backends and API architecture to conversion-optimised frontends. We build platforms natively integrated with Google, Meta, LinkedIn, Zoho, Twilio, and your entire tech ecosystem.</p>
+          <div class="svc-tags">
+            <span class="tag">Full-Stack</span>
+            <span class="tag">API Architecture</span>
+            <span class="tag">Platform Integrations</span>
+            <span class="tag">AI Embedding</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== CASE STUDIES ==================== -->
+  <section class="section" id="case-studies">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Case Studies</div>
+        <h2>Real Systems Built.<br><span class="gradient-text">Measurable Results Delivered.</span></h2>
+        <p>Every engagement is a precisely scoped, outcome-driven project. Here is what we have built and what it achieved.</p>
+      </div>
+
+      <div class="case-wrap">
+
+        <!-- Case 1: Hero Motors -->
+        <div class="case fade-up">
+          <div class="case-copy">
+            <div class="case-label">Automotive / Dealership Network</div>
+            <h3>Dual-Channel AI Automation</h3>
+            <div class="case-client">Hero Motors — Hyderabad</div>
+            <div class="case-block">
+              <div class="case-block-lbl">Challenge</div>
+              <div class="case-block-txt">Hero Motors' dealership network received 500+ daily inquiries across 12 locations. Sales agents were overwhelmed, average response times exceeded 6 hours, and an estimated 30% of inbound leads were lost due to delayed follow-ups and after-hours gaps in coverage.</div>
+            </div>
+            <div class="case-block">
+              <div class="case-block-lbl">Solution</div>
+              <div class="case-block-txt">Deployed a dual-channel AI system — an intelligent telephony agent handling inbound calls for test drive scheduling, product queries, and lead qualification; paired with a WhatsApp automation layer for post-visit follow-ups, service reminders, and financing enquiries.</div>
+            </div>
+            <div class="case-kpis">
+              <div><div class="kpi-val">70%</div><div class="kpi-lbl">Reduction in response time</div></div>
+              <div><div class="kpi-val">400+</div><div class="kpi-lbl">Daily automated interactions</div></div>
+              <div><div class="kpi-val">40%</div><div class="kpi-lbl">Improvement in lead conversion</div></div>
+            </div>
+          </div>
+          <div class="case-visual">
+            <div class="cv-head">
+              <span>TELEPHONY AGENT — LIVE METRICS</span>
+              <span class="cv-badge">Active</span>
+            </div>
+            <div class="cv-rows">
+              <div class="cv-row"><span class="cv-row-lbl">Inbound Calls Today</span><span class="cv-row-val">312</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">WhatsApp Conversations</span><span class="cv-row-val">148</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">Appointments Scheduled</span><span class="cv-row-val green">89</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">Autonomous Resolution</span><span class="cv-row-val green">93%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 2: Mukunda Jewellers -->
+        <div class="case fade-up">
+          <div class="case-visual">
+            <div class="cv-head">
+              <span>CALL AGENT — SESSION LOG</span>
+              <span class="cv-badge">Active</span>
+            </div>
+            <div class="cv-log">
+              <div style="color:var(--blue-lt);">09:14 &nbsp;Inbound → Gold rate inquiry <span style="color:var(--green);">HANDLED</span></div>
+              <div style="color:var(--blue-lt);">09:31 &nbsp;Appointment scheduled → Showroom <span style="color:var(--green);">BOOKED</span></div>
+              <div style="color:var(--blue-lt);">10:02 &nbsp;High-value consult → Escalated <span style="color:var(--amber);">HUMAN</span></div>
+              <div style="color:var(--blue-lt);">10:18 &nbsp;Product availability query <span style="color:var(--green);">HANDLED</span></div>
+              <div style="color:var(--blue-lt);">10:45 &nbsp;Festive offer inquiry <span style="color:var(--green);">HANDLED</span></div>
+              <div style="color:var(--blue-lt);">11:03 &nbsp;Repeat client — priority booking <span style="color:var(--green);">BOOKED</span></div>
+            </div>
+          </div>
+          <div class="case-copy">
+            <div class="case-label">Luxury Retail / Jewellery</div>
+            <h3>Intelligent Telephony Agent</h3>
+            <div class="case-client">Mukunda Jewellers — Hyderabad</div>
+            <div class="case-block">
+              <div class="case-block-lbl">Challenge</div>
+              <div class="case-block-txt">A premium appointment-only jewellery showroom experienced a 60% call drop rate during festive seasons. High-value consultations were missed while staff attended walk-in clients, resulting in direct revenue loss during the highest-demand periods of the year.</div>
+            </div>
+            <div class="case-block">
+              <div class="case-block-lbl">Solution</div>
+              <div class="case-block-txt">An intelligent telephony agent handling appointment scheduling, gold rate updates, product availability queries, and festive offer communications — with precision escalation to senior staff for VIP client interactions and high-value consultations.</div>
+            </div>
+            <div class="case-kpis">
+              <div><div class="kpi-val">100%</div><div class="kpi-lbl">Call answer rate achieved</div></div>
+              <div><div class="kpi-val">3x</div><div class="kpi-lbl">Appointment volume (festive)</div></div>
+              <div><div class="kpi-val">Zero</div><div class="kpi-lbl">Missed leads post-deployment</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 3: Unilytics -->
+        <div class="case fade-up">
+          <div class="case-copy">
+            <div class="case-label">Digital Marketing / Agency</div>
+            <h3>Full-Stack Marketing Automation</h3>
+            <div class="case-client">Unilytics.ai</div>
+            <div class="case-block">
+              <div class="case-block-lbl">Challenge</div>
+              <div class="case-block-txt">A fast-growing digital marketing agency managing 25+ client accounts needed to eliminate manual performance reporting, ad campaign monitoring, and cross-platform data reconciliation across Google Ads, Meta Business Suite, and LinkedIn Campaign Manager simultaneously.</div>
+            </div>
+            <div class="case-block">
+              <div class="case-block-lbl">Solution</div>
+              <div class="case-block-txt">Built an end-to-end automation layer connecting all advertising platforms via APIs, with an AI-driven analytics engine generating performance insights, automated client reporting dashboards, and trigger-based campaign adjustments based on predefined performance thresholds.</div>
+            </div>
+            <div class="case-kpis">
+              <div><div class="kpi-val">60%</div><div class="kpi-lbl">Reduction in manual reporting</div></div>
+              <div><div class="kpi-val">2hrs</div><div class="kpi-lbl">Optimisation latency (was 48hrs)</div></div>
+              <div><div class="kpi-val">25+</div><div class="kpi-lbl">Client accounts automated</div></div>
+            </div>
+          </div>
+          <div class="case-visual">
+            <div class="cv-head">
+              <span>CAMPAIGN AUTOMATION — STATUS</span>
+              <span class="cv-badge">Synced</span>
+            </div>
+            <div class="cv-rows">
+              <div class="cv-row"><span class="cv-row-lbl">Google Ads</span><span class="cv-row-val green" style="font-size:0.8rem;font-weight:700;">SYNCED</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">Meta Business Suite</span><span class="cv-row-val green" style="font-size:0.8rem;font-weight:700;">SYNCED</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">LinkedIn Campaign Manager</span><span class="cv-row-val green" style="font-size:0.8rem;font-weight:700;">SYNCED</span></div>
+              <div class="cv-row"><span class="cv-row-lbl">AI Reporting Engine</span><span class="cv-row-val" style="font-size:0.8rem;font-weight:700;color:var(--amber);">RUNNING</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 4: Edutech Ignitus -->
+        <div class="case fade-up">
+          <div class="case-visual">
+            <div class="cv-head">
+              <span>LEARNING AGENT — SESSION</span>
+              <span class="cv-badge">Active</span>
+            </div>
+            <div class="cv-log">
+              <div style="color:var(--blue-lt);">Student: "Explain gradient descent"</div>
+              <div style="color:var(--text-2);padding-left:0.75rem;">Agent: Fetching context from Module 4...</div>
+              <div style="color:var(--text-2);padding-left:0.75rem;">Personalised explanation delivered.</div>
+              <div style="color:var(--green);padding-left:0.75rem;margin-top:4px;">Query resolved autonomously</div>
+              <div style="color:var(--blue-lt);margin-top:8px;">Student: "Show me a Python example"</div>
+              <div style="color:var(--text-2);padding-left:0.75rem;">Agent: Generating code example...</div>
+              <div style="color:var(--green);padding-left:0.75rem;">Code + walkthrough delivered.</div>
+            </div>
+          </div>
+          <div class="case-copy">
+            <div class="case-label">Education Technology / EdTech</div>
+            <h3>24/7 AI Learning Agent</h3>
+            <div class="case-client">Edutech Ignitus</div>
+            <div class="case-block">
+              <div class="case-block-lbl">Challenge</div>
+              <div class="case-block-txt">An EdTech platform with 5,000+ active students needed personalised, curriculum-aligned learning support around the clock — without scaling the human tutoring team proportionally, which was economically unsustainable at their growth rate.</div>
+            </div>
+            <div class="case-block">
+              <div class="case-block-lbl">Solution</div>
+              <div class="case-block-txt">Conversational AI agents embedded in the learning platform, trained on course curriculum via retrieval-augmented generation. Agents answer subject-specific questions, guide learners through content, track progress, and intelligently escalate complex queries to human tutors.</div>
+            </div>
+            <div class="case-kpis">
+              <div><div class="kpi-val">80%</div><div class="kpi-lbl">Queries resolved autonomously</div></div>
+              <div><div class="kpi-val">65%</div><div class="kpi-lbl">Reduction in support workload</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== INTEGRATIONS ==================== -->
+  <section class="section-sm" id="integrations">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Integrations</div>
+        <h2>Connected to the Platforms<br><span class="gradient-text">Your Business Runs On</span></h2>
+        <p>We integrate your AI systems with the tools and platforms already at the centre of your operations — no rip-and-replace required.</p>
+      </div>
+      <div class="integrations-grid fade-up">
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/google/94a3b8" alt="Google"><span class="brand-name">Google Workspace</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/meta/94a3b8" alt="Meta"><span class="brand-name">Meta Business</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/whatsapp/94a3b8" alt="WhatsApp"><span class="brand-name">WhatsApp Business</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/linkedin/94a3b8" alt="LinkedIn"><span class="brand-name">LinkedIn</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/instagram/94a3b8" alt="Instagram"><span class="brand-name">Instagram</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/zoho/94a3b8" alt="Zoho"><span class="brand-name">Zoho CRM</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/twilio/94a3b8" alt="Twilio"><span class="brand-name">Twilio</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/googleads/94a3b8" alt="Google Ads"><span class="brand-name">Google Ads</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/salesforce/94a3b8" alt="Salesforce"><span class="brand-name">Salesforce</span></div>
+        <div class="brand-card"><img src="https://cdn.simpleicons.org/googleanalytics/94a3b8" alt="Google Analytics"><span class="brand-name">Google Analytics</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== TECH STACK ==================== -->
+  <section class="section-sm" id="tech">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Technology</div>
+        <h2>Built on the World's Most<br><span class="gradient-text">Advanced AI Infrastructure</span></h2>
+      </div>
+      <div class="tech-grid fade-up">
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/openai/94a3b8" alt="OpenAI"><span class="tech-name">OpenAI GPT-4o</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/anthropic/94a3b8" alt="Anthropic"><span class="tech-name">Anthropic Claude</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/microsoftazure/94a3b8" alt="Azure"><span class="tech-name">Microsoft Azure</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/amazonaws/94a3b8" alt="AWS"><span class="tech-name">Amazon AWS</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/python/94a3b8" alt="Python"><span class="tech-name">Python</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/fastapi/94a3b8" alt="FastAPI"><span class="tech-name">FastAPI</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/react/94a3b8" alt="React"><span class="tech-name">React</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/postgresql/94a3b8" alt="PostgreSQL"><span class="tech-name">PostgreSQL</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/docker/94a3b8" alt="Docker"><span class="tech-name">Docker</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/redis/94a3b8" alt="Redis"><span class="tech-name">Redis</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/pytorch/94a3b8" alt="PyTorch"><span class="tech-name">PyTorch</span></div>
+        <div class="tech-card"><img src="https://cdn.simpleicons.org/tensorflow/94a3b8" alt="TensorFlow"><span class="tech-name">TensorFlow</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== PROCESS ==================== -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">How We Work</div>
+        <h2>From Discovery to<br><span class="gradient-text">Production in Weeks</span></h2>
+        <p>A structured, transparent engagement model designed to eliminate ambiguity and deliver working systems on schedule.</p>
+      </div>
+      <div class="process-grid fade-up">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <h4>Discovery &amp; Scoping</h4>
+          <p>We map your operational workflows, identify AI-addressable bottlenecks, and define precise success metrics before a single line of code is written.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <h4>Architecture &amp; Design</h4>
+          <p>We design the system architecture, select appropriate models and infrastructure, and deliver a technical specification document for your review.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <h4>Build &amp; Integration</h4>
+          <p>Agile development with weekly demos. We build, test, and integrate your AI system into existing platforms with minimal disruption to operations.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <h4>Deploy &amp; Optimise</h4>
+          <p>Production deployment with monitoring dashboards, performance benchmarking, and continuous optimisation based on real-world interaction data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== INDUSTRIES ==================== -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Industries</div>
+        <h2>Sector Expertise Across<br><span class="gradient-text">Eight Industries</span></h2>
+      </div>
+      <div class="industries-grid fade-up">
+        <div class="ind-card"><div class="ind-name">Automotive</div><div class="ind-desc">Lead qualification, test drive scheduling, service reminders, dealership automation</div></div>
+        <div class="ind-card"><div class="ind-name">Retail &amp; Jewellery</div><div class="ind-desc">Appointment management, product catalogues, high-value client relationship automation</div></div>
+        <div class="ind-card"><div class="ind-name">Education &amp; EdTech</div><div class="ind-desc">AI tutoring agents, curriculum-aligned Q&amp;A, student progress tracking systems</div></div>
+        <div class="ind-card"><div class="ind-name">Digital Marketing</div><div class="ind-desc">Cross-platform campaign automation, AI reporting, performance optimisation pipelines</div></div>
+        <div class="ind-card"><div class="ind-name">Manufacturing</div><div class="ind-desc">Supply chain forecasting, defect detection, inventory intelligence, production planning</div></div>
+        <div class="ind-card"><div class="ind-name">Healthcare</div><div class="ind-desc">Patient scheduling, document AI, compliance automation, diagnostic decision support</div></div>
+        <div class="ind-card"><div class="ind-name">Financial Services</div><div class="ind-desc">Customer onboarding, KYC automation, transaction monitoring, AI advisory bots</div></div>
+        <div class="ind-card"><div class="ind-name">Real Estate</div><div class="ind-desc">Property inquiry agents, site visit scheduling, lead nurturing, CRM automation</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== TEAM ==================== -->
+  <section class="section" id="team">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-pill">Leadership</div>
+        <h2>The Team Behind<br><span class="gradient-text">Sarvtra AI Solutions</span></h2>
+        <p>A founder-led team with deep technical expertise in AI systems, automation engineering, and enterprise software delivery.</p>
+      </div>
+      <div class="team-grid fade-up">
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(59,130,246,0.18),rgba(99,102,241,0.18));border:1px solid var(--border);">
+            <span style="background:linear-gradient(135deg,#3B82F6,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">KG</span>
+          </div>
+          <div class="team-name">Karthik Raj Gupta</div>
+          <div class="team-role">Managing Director &amp; CEO</div>
+          <p class="team-bio">Leads product architecture, client strategy, and AI systems design across all engagements. Specialises in voice AI, LLM integration, and end-to-end automation engineering for enterprise clients.</p>
+          <div class="team-contacts">
+            <a href="tel:+919866517854">+91 98665 17854</a>
+            <a href="mailto:karthikraj.gupta@gmail.com">karthikraj.gupta@gmail.com</a>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(99,102,241,0.18),rgba(139,92,246,0.18));border:1px solid var(--border);">
+            <span style="background:linear-gradient(135deg,#6366F1,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">SV</span>
+          </div>
+          <div class="team-name">Shyam Vishwanatham</div>
+          <div class="team-role">Chief Operating Officer</div>
+          <p class="team-bio">Oversees delivery operations, client relationships, and go-to-market execution. Ensures every project is delivered on time, within scope, and to the performance benchmarks defined at engagement start.</p>
+          <div class="team-contacts">
+            <a href="tel:+918897084959">+91 88970 84959</a>
+            <a href="mailto:shyam@sarvtra.ai">shyam@sarvtra.ai</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info fade-up">
+          <div class="section-pill" style="margin-bottom:1.5rem;">Get In Touch</div>
+          <h2>Ready to Deploy<br><span class="gradient-text">Intelligent Systems?</span></h2>
+          <p>Schedule a no-obligation discovery call. We will assess your operations, identify where AI creates the highest leverage, and outline a precise solution — before you commit to anything.</p>
+          <div class="contact-items">
+            <div>
+              <div class="ci-label">CEO Direct Line</div>
+              <div class="ci-val"><a href="tel:+919866517854">+91 98665 17854</a></div>
+            </div>
+            <div>
+              <div class="ci-label">COO Direct Line</div>
+              <div class="ci-val"><a href="tel:+918897084959">+91 88970 84959</a></div>
+            </div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-val"><a href="mailto:hello@sarvtra.ai">hello@sarvtra.ai</a></div>
+            </div>
+            <div>
+              <div class="ci-label">WhatsApp</div>
+              <div class="ci-val"><a href="https://wa.me/919866517854">Message us on WhatsApp</a></div>
+            </div>
+            <div>
+              <div class="ci-label">Office Address</div>
+              <div class="ci-val">Road No. 7, HMT Officers Colony,<br>Old Alwal, Hyderabad — 500010</div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form fade-up">
+          <h3>Send us a Message</h3>
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                <label>Company</label>
+                <input type="text" placeholder="Your company" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="you@company.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 XXXXX XXXXX" />
+            </div>
+            <div class="form-group">
+              <label>Service of Interest</label>
+              <select>
+                <option value="">Select a service</option>
+                <option>Voice &amp; Call Bot Systems</option>
+                <option>WhatsApp AI Agents</option>
+                <option>Website AI Agents</option>
+                <option>Computer Vision &amp; Vision AI</option>
+                <option>Supply Chain ML &amp; Predictions</option>
+                <option>Platform &amp; Workflow Automation</option>
+                <option>Evaluation &amp; QA Bots</option>
+                <option>AI-Native Web Development</option>
+                <option>Not sure — need a consultation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea placeholder="Briefly describe your use case or the challenge you are looking to solve..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#" style="display:inline-flex;align-items:baseline;gap:0.4rem;">
+            <span style="font-size:1.2rem;font-weight:800;letter-spacing:-0.04em;color:#fff;">SARVTRA</span>
+            <span style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-lt);">AI Solutions</span>
+          </a>
+          <p class="footer-brand-desc">Enterprise AI infrastructure for businesses ready to operate at a new level of intelligence, speed, and scale.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn"><img src="https://cdn.simpleicons.org/linkedin/64748b" alt="LinkedIn" /></a>
+            <a href="https://wa.me/919866517854" class="social-btn"><img src="https://cdn.simpleicons.org/whatsapp/64748b" alt="WhatsApp" /></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#services">Voice &amp; Call Bots</a></li>
+            <li><a href="#services">WhatsApp AI</a></li>
+            <li><a href="#services">Website Agents</a></li>
+            <li><a href="#services">Computer Vision</a></li>
+            <li><a href="#services">ML &amp; Predictions</a></li>
+            <li><a href="#services">Workflow Automation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#case-studies">Case Studies</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#process">Our Process</a></li>
+            <li><a href="#integrations">Integrations</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="tel:+919866517854">+91 98665 17854</a></li>
+            <li><a href="tel:+918897084959">+91 88970 84959</a></li>
+            <li><a href="mailto:hello@sarvtra.ai">hello@sarvtra.ai</a></li>
+            <li><a href="#">Hyderabad, India</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Sarvtra AI Solutions. All rights reserved.</p>
+        <p>Road No. 7, HMT Officers Colony, Old Alwal, Hyderabad — 500010</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    /* ---- Scroll-triggered fade-up animations ---- */
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.07, rootMargin: '0px 0px -36px 0px' }
+    );
+    document.querySelectorAll('.fade-up').forEach((el) => fadeObserver.observe(el));
+
+    /* ---- Stagger children inside grids ---- */
+    document.querySelectorAll(
+      '.services-grid, .integrations-grid, .tech-grid, .industries-grid, .process-grid, .team-grid'
+    ).forEach((grid) => {
+      grid.querySelectorAll(':scope > *').forEach((child, i) => {
+        child.style.transitionDelay = `${i * 55}ms`;
+      });
+    });
+
+    /* ---- Animated stat counters ---- */
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.count, 10);
+      const duration = 1800;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target) + '+';
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target + '+';
+      };
+      requestAnimationFrame(tick);
+    }
+
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target.dataset.count) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll('[data-count]').forEach((el) => counterObserver.observe(el));
+
+    /* ---- Contact form handler ---- */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Message Sent';
+      btn.style.background = '#10B981';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3500);
+    }
+  </script>
+
+</body>
+</html>
