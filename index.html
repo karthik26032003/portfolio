@@ -601,36 +601,206 @@
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
     /* ============================================================
-       RESPONSIVE
+       HAMBURGER MENU
+    ============================================================ */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 40px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text-2); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s, background 0.2s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #fff; }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #fff; }
+
+    /* Mobile nav drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: rgba(3,7,17,0.98);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem 2rem;
+      z-index: 999;
+      flex-direction: column;
+      gap: 0;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu a {
+      display: block;
+      font-size: 1rem; font-weight: 500;
+      color: var(--text-2);
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: #fff; }
+    .mobile-menu .mobile-cta {
+      margin-top: 1.25rem;
+      background: var(--blue); color: #fff !important;
+      padding: 0.85rem 1.5rem; border-radius: 10px;
+      font-weight: 600; text-align: center;
+      border-bottom: none !important;
+    }
+    .mobile-menu .mobile-cta:hover { background: #2563EB; }
+
+    /* ============================================================
+       RESPONSIVE — TABLET (max 1024px)
     ============================================================ */
     @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero { padding: 110px 0 70px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-visual { display: none; }
+      .hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); }
+      .hero-desc { max-width: 100%; }
+      .hero-stats { grid-template-columns: repeat(3,1fr); }
+
       .services-grid { grid-template-columns: repeat(2,1fr); }
+
+      .case { grid-template-columns: 1fr; gap: 2rem; }
+      .case:nth-child(even) .case-copy,
+      .case:nth-child(even) .case-visual { order: unset; }
+      .case-visual { display: none; }
+
       .integrations-grid { grid-template-columns: repeat(3,1fr); }
       .tech-grid { grid-template-columns: repeat(4,1fr); }
-      .case { grid-template-columns: 1fr; }
-      .case:nth-child(even) .case-copy, .case:nth-child(even) .case-visual { order: unset; }
-      .case-visual { display: none; }
-      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .process-grid { grid-template-columns: repeat(2,1fr); }
+
+      .process-grid { grid-template-columns: repeat(2,1fr); gap: 2rem; }
       .process-grid::before { display: none; }
-      .industries-grid { grid-template-columns: repeat(2,1fr); }
+
+      .industries-grid { grid-template-columns: repeat(3,1fr); }
+
+      .team-grid { max-width: 640px; }
+
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-info h2 { font-size: 2rem; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+      .section-header h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); }
     }
-    @media (max-width: 640px) {
-      .container { padding: 0 1.25rem; }
+
+    /* ============================================================
+       RESPONSIVE — MOBILE LANDSCAPE / SMALL TABLET (max 768px)
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+
       .section { padding: 80px 0; }
+      .section-sm { padding: 60px 0; }
+
+      .hero { padding: 100px 0 60px; min-height: auto; }
+      .hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); }
+      .hero-desc { font-size: 1rem; }
+      .hero-actions { gap: 0.75rem; }
+      .btn-primary, .btn-outline { padding: 0.75rem 1.4rem; font-size: 0.9rem; }
+      .hero-stats { grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+      .stat-num { font-size: 1.75rem; }
+
+      .clients-row { gap: 2rem; }
+      .client-name { font-size: 0.875rem; }
+
+      .services-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+      .svc-card { padding: 1.5rem; }
+
+      .case { padding: 2.5rem 0; }
+      .case-copy h3 { font-size: 1.35rem; }
+      .kpi-val { font-size: 1.5rem; }
+      .case-kpis { gap: 1.25rem; }
+
+      .integrations-grid { grid-template-columns: repeat(3,1fr); gap: 0.75rem; }
+      .brand-card { padding: 1rem 0.75rem; }
+
+      .tech-grid { grid-template-columns: repeat(4,1fr); gap: 0.65rem; }
+
+      .process-grid { grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+
+      .industries-grid { grid-template-columns: repeat(2,1fr); gap: 0.75rem; }
+
+      .team-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+      .contact-info h2 { font-size: 1.8rem; }
+      .contact-form { padding: 1.75rem; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+
+      .section-header { margin-bottom: 2.5rem; }
+      .section-header h2 { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+      .section-header p { font-size: 0.95rem; }
+    }
+
+    /* ============================================================
+       RESPONSIVE — MOBILE (max 480px)
+    ============================================================ */
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+      .section { padding: 64px 0; }
+      .section-sm { padding: 48px 0; }
+
+      nav { height: 62px; }
+      .mobile-menu { top: 62px; }
+      .nav-logo-main { font-size: 1.15rem; }
+
+      .hero { padding: 88px 0 52px; }
+      .hero h1 { font-size: clamp(1.75rem, 7vw, 2.4rem); letter-spacing: -0.03em; }
+      .hero-desc { font-size: 0.95rem; margin-bottom: 2rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .stat-num { font-size: 1.6rem; }
+
       .services-grid { grid-template-columns: 1fr; }
-      .hero-stats { grid-template-columns: repeat(2,1fr); }
+      .svc-card { padding: 1.25rem; }
+      .svc-card h3 { font-size: 1rem; }
+
+      .case { padding: 2rem 0; }
+      .case-copy h3 { font-size: 1.2rem; }
+      .case-kpis { flex-wrap: wrap; gap: 1rem; }
+      .kpi-val { font-size: 1.4rem; }
+
       .integrations-grid { grid-template-columns: repeat(2,1fr); }
       .tech-grid { grid-template-columns: repeat(3,1fr); }
-      .team-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+
+      .process-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+      .process-num { width: 52px; height: 52px; font-size: 0.85rem; }
+
       .industries-grid { grid-template-columns: repeat(2,1fr); }
-      .process-grid { grid-template-columns: 1fr 1fr; }
+      .ind-card { padding: 1rem; }
+
+      .team-card { padding: 1.75rem; }
+      .team-avatar { width: 68px; height: 68px; }
+
+      .contact-info h2 { font-size: 1.6rem; }
+      .contact-form { padding: 1.25rem; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-brand-desc { max-width: 100%; }
+
+      .section-header h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .section-pill { font-size: 0.65rem; }
+
+      .wa-float { width: 48px; height: 48px; bottom: 1.25rem; right: 1.25rem; }
     }
   </style>
 </head>
@@ -662,8 +832,20 @@
         <li><a href="#team">Team</a></li>
         <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
       </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services"     onclick="closeMobileMenu()">Services</a>
+    <a href="#case-studies" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="#integrations" onclick="closeMobileMenu()">Integrations</a>
+    <a href="#team"         onclick="closeMobileMenu()">Team</a>
+    <a href="#contact"      onclick="closeMobileMenu()" class="mobile-cta">Get in Touch</a>
+  </div>
 
   <!-- ==================== HERO ==================== -->
   <section class="hero">
@@ -672,10 +854,6 @@
 
         <!-- Left -->
         <div class="hero-copy">
-          <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            Currently accepting new clients
-          </div>
           <h1>We Build AI Infrastructure<br>
             <span class="gradient-text">That Transforms Operations</span>
           </h1>
@@ -1328,6 +1506,29 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
+    /* ---- Mobile hamburger menu ---- */
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
     /* ---- Scroll-triggered fade-up animations ---- */
     const fadeObserver = new IntersectionObserver(
       (entries) => {
